@@ -1,0 +1,102 @@
+extends layout
+
+block content
+	div(class='container' style='margin-top: 5rem;')
+		div(class='row' id='character')
+			div(class='six columns' id='character-name-and-stats')
+				div(class='row' id='character-name')
+					div(class='three columns' id='character-portrait')
+						img(src=character.image style='height: 75px;width: 75px;', id='charImage')
+					div(class='nine columns' id='name-and-class')
+						div(class='row' id='name')
+							div 
+								input(value=character.CharName id="CharName")
+							div
+								input(value=character.CharClass id="CharClass")
+				div(class='row' id='character-stats')
+					each stat in character.Stats
+						div(class='two columns')
+								div(class='row stat') #{stat.name}
+								div(class='stat')
+									input(type='number' class='row number-seletor' value=stat.stat id=stat.name, onchange="updateMod('" + stat.name + "')")
+								div(class='row stat' id=stat.name + '_mod') #{stat.mod}
+
+			div(class='six columns')
+				div(class='row' id='additional-stats')
+					div(class='six columns' id='first-half-additional')
+						div Initative: 
+							input(type='number', class='number-seletor' value=character.Initiative id='Initiative')
+						div Passive Perception: 
+							input(type='number', class='number-seletor' value=character.PassPerception id='PassPerception')
+					div(class='six columns' id='second-half-additional')
+						div(style='display: inline-block;') 
+							div(style='display:inline-block;') HP:
+							input(
+								type="number",
+								id="HPCurrent",
+								class='number-seletor',
+								style="display:inline-block; margin-left: 5px;",
+								value=character.HPCurrent
+							)
+
+							div(style="display:inline-block; margin-left:5px; margin-right:5px;") /
+							input(
+								type='number',
+								id='HPMax',
+								class='number-seletor',
+								style="display:inline-block;",
+								value=character.HPMax
+							)
+						div AC: 
+							input(type='number', class='number-seletor' value=character.AC, id='AC')
+				div(class='row' id='spells')
+					div(class='column')
+						div(class='row') Spells
+						div(class='row')
+							div(class='row')
+								div(class='three columns')
+								each slot in character.SpellSlots
+									div(class='one column')
+										div(class='row stat') #{slot.name}
+										div(class='row stat')
+											input(
+												type='number',
+												id='spellSlot_'+character.id+'_'+slot.name
+												class='number-seletor',
+												value=slot.numSlots
+											)
+		div(class='row')
+			div(class='six columns') Image URL
+				div
+					input(value=character.image, id='image', style='width:100%', onchange="updateImage()")
+			div(class='six columns')
+				div Active?
+					select(style='margin-left:10px;' id='is_active')
+						option(value='1', selected=(character.is_active===1 ? true : false)) Yes
+						option(value='0', selected=(character.is_active!=1 ? true : false)) No
+				div
+					button(class='u-pull-right' onclick='saveFullCharacter("' + character.id + '")') Save
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

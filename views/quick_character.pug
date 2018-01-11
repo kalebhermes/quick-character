@@ -1,0 +1,60 @@
+extends layout
+
+block content
+	div(class='container' style='margin-top: 5rem;')
+		each row in rows
+			div(class='row' id='character')
+				div(class='six columns' id='character-name-and-stats')
+					div(class='row' id='character-name')
+						div(class='three columns' id='character-portrait')
+							img(src=row.image style='height: 75px;width: 75px;')
+						div(class='nine columns' id='name-and-class')
+							div(class='row' id='name')
+								div 
+								a(href='http://localhost:3000/updateFullCharacter/' + row.id) #{row.CharName}
+								div #{row.CharClass}
+					div(class='row' id='character-stats')
+						each stat in row.Stats
+							div(class='two columns')
+									div(class='row stat') #{stat.name}
+									div(class='row stat') #{stat.stat}
+									div(class='row stat') #{stat.mod}
+
+				div(class='six columns')
+					div(class='row' id='additional-stats')
+						div(class='six columns' id='first-half-additional')
+							div Initative: #{row.Initiative}
+							div Passive Perception: #{row.PassPerception}
+						div(class='six columns' id='second-half-additional')
+							div(style='display: inline-block;') 
+								div(style='display:inline-block;') HP:
+								input(
+									type="number",
+									id="hp_"+row.id,
+									class='number-seletor',
+									style="display:inline-block; margin-left: 5px;",
+									value=row.HPCurrent, 
+									onchange="postCharUpdate('" + row.id + "')"
+								)
+
+								div(style='display:inline-block; margin-left: 5px;') / #{row.HPMax}
+							div AC: #{row.AC}
+					div(class='row' id='spells')
+						div(class='column')
+							div(class='row') Spells
+							div(class='row')
+								div(class='row')
+									div(class='three columns')
+									each slot in row.SpellSlots
+										div(class='one column')
+											div(class='row stat') #{slot.name}
+											div(class='row stat')
+												input(
+													type='number',
+													id='spellSlot_'+row.id+'_'+slot.name
+													class='number-seletor',
+													value=slot.numSlots,
+													onchange="postSpellUpdate('" + row.id + "')"
+												)
+
+			hr

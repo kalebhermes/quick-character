@@ -1,0 +1,123 @@
+body{
+	background-color: #373c41;
+    color: #C7C7C7;
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    font-variant: normal;
+    font-size: 1.7rem;
+}
+h1, h2, h3, h4, h5, h6{
+    letter-spacing: .5px;
+}
+
+h1{
+	font-size: 5rem;
+	color: #FEFEFE;
+    font-weight: 700;
+    margin-top: 2.5rem;
+}
+h1 a{
+    color: #648DAF;
+}
+h2{
+	font-size: 3.5rem;
+	color: #FFFFFF;
+    font-weight: 700;
+}
+h3{
+    font-size: 2.25rem;
+    font-weight: 600;
+}
+h2 a, h3 a, h4 a, h5 a{
+	color: #FAFAFA;
+}
+a{
+	color:#C7C7C7;
+	text-decoration: none;
+}
+a:hover{
+	cursor: pointer;
+	color: #648DAF;
+}
+p a{
+	color: #648DAF;
+}
+p a:hover{
+    opacity: .7;
+}
+
+footer{
+    display: block;
+    position: relative;
+    height: 100px;
+}
+
+ul:first-of-type{
+    display: none;
+}
+
+code {
+  background: #222222;
+  border: 1px solid #222222;
+  color: #648DAF;
+}
+
+.signature {
+    display: block;
+    margin: auto;
+    width: 250px;
+    height: 250px;
+    position: relative;
+    top: -8rem;
+}
+
+
+@media (min-width: 460px) {
+    h1{
+        font-size: 6rem;
+    }
+    h2{
+        font-size: 3.5rem;
+    }
+    h3{
+        font-size: 2.25rem;
+    }
+    .signature {
+        width: 300px;
+        height: 300px;
+        top: -10rem;
+    }
+}
+
+@media (min-width: 650px) {
+    h1{
+      font-size: 8rem;
+    }
+    h2{
+        font-size: 4rem;
+    }
+    h3{
+        font-size: 2.5rem;
+    }
+    .signature {
+        width: 400px;
+        height: 400px;
+        top: -12.5rem;
+    }
+}
+
+@media (min-width: 810px) {
+    h1{
+        font-size: 10rem;
+    }
+    h2{
+        font-size: 5rem;
+    }
+    h3{
+        font-size: 3.25rem;
+    }
+    .signature {
+        width: 500px;
+        height: 500px;
+        top: -15rem;
+    }
+}
