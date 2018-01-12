@@ -5,13 +5,18 @@ html
 		meta(name="Kaleb Hermes" content="notranslate")
 		meta(http-equiv="Content-Language" content="en")
 		meta(name="viewport" content="width=device-width, initial-scale=1")
-		link(rel="stylesheet" href="/stylesheets/normalize.css")
-		link(rel="stylesheet" href="/stylesheets/skeleton.css")
-		
-		link(rel="stylesheet" href="/stylesheets/style.css")
-		link(rel="stylesheet" href="/stylesheets/dnd.css")
-		
-		link(rel="shortcut icon" href="./images/favicon.ico" type="image/x-icon")
-		script(src="/javascripts/post.js")
+
+		if env.NODE_ENV === 'development'
+			link(rel="stylesheet" href="/stylesheets/normalize.css")
+			link(rel="stylesheet" href="/stylesheets/skeleton.css")
+			link(rel="stylesheet" href="/stylesheets/style.css")
+			link(rel="stylesheet" href="/stylesheets/dnd.css")
+			script(src="/javascripts/post.js")
+		if env.NODE_ENV === 'production'
+			link(rel="stylesheet" href="/node/stylesheets/normalize.css")
+			link(rel="stylesheet" href="/node/stylesheets/skeleton.css")
+			link(rel="stylesheet" href="/node/stylesheets/style.css")
+			link(rel="stylesheet" href="/node/stylesheets/dnd.css")
+			script(src="/node/javascripts/post.js")
 	body
 	block content

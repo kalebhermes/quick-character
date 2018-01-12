@@ -4,49 +4,66 @@ function findMod(stat){
 	let num = Math.floor((stat - 10) / 2);
 	if(num > -1) num = '+' + num;
 	return num;
-}
+};
 
 function updateImage(){
 	let imageURL = document.getElementById('image').value;
 	document.getElementById('charImage').src = imageURL;
-}
+};
 
 function updateMod(type){
-	console.log(type);
 	let fullStat = document.getElementById(type).value;
-	console.log(document.getElementById(type+'_mod'));
 	document.getElementById(type+'_mod').textContent = findMod(fullStat);
-}
+};
 
-function postCharUpdate(id){
+function getURL(env, route){
+	let base;
+	if(env === 'development'){
+		base = 'http://localhost:3000/';
+	} else if(env === 'production'){
+		base = 'http://kalebhermes.com/node/'
+	}
+	return base + route;
+};
+
+function postCharUpdate(id, env){
 	update = {
 		hp: document.getElementById('hp_'+id).value,
 		// notes: document.getElementById('notes_'+id).value,
 		notes: '',
 		id: id
 	};
-	$(update, 'http://localhost:3000/updateCharacter');
+
+	let url = getURL(env, 'updateCharacter');
+
+	$(update, url);
 };
 
-function postSpellUpdate(id){
+function postSpellUpdate(id, env){
 	var numbers = {};
 	for(var x=1;x<10;x++){
 		numbers[x] = document.getElementById('spellSlot_'+id+'_'+x).value;
 	}
 	numbers['id'] = id;
-	$(numbers, 'http://localhost:3000/updateSpells');
+
+	let url = getURL(env, 'updateSpells');
+
+	$(numbers, url);
 };
 
-function postStatUpdate(id){
+function postStatUpdate(id, env){
 	var stats = {};
 	for(var x=0;x<statName.length;x++){
 		stats[statName[x]] = document.getElementById(statName[x]).value;
 	}
 	stats['id'] = id;
-	$(stats, 'http://localhost:3000/updateStats');
+
+	let url = getURL(env, 'updateStats');
+
+	$(stats, url);
 }
 
-function saveFullCharacter(id){
+function saveFullCharacter(id, env){
 	let character = {
 		CharName: document.getElementById('CharName').value,
 		CharClass: document.getElementById('CharClass').value,
@@ -59,17 +76,18 @@ function saveFullCharacter(id){
 		is_active: document.getElementById('is_active').value,
 		image: document.getElementById('image').value,
 		id: id
-	}
+	};
 
-	console.log(character);
+	postSpellUpdate(id, env);
+	postStatUpdate(id, env);
 
-	postSpellUpdate(id);
-	postStatUpdate(id);
-	$(character, 'http://localhost:3000/updateFullCharacter/' + id);
+	let url = getURL(env, 'updateFullCharacter/' + id);
+
+	$(character, url);
 
 };
 
-function newCharacter(){
+function newCharacter(env){
 	let stats = {};
 	let spells = {};
 
@@ -96,11 +114,13 @@ function newCharacter(){
 		stats: stats
 	};
 
-	$(character, 'http://localhost:3000/newCharacter');
+	let url = getURL(env, 'newCharacter');
+
+	$(character, url);
 
 };
 
-function $(data, url) {
+function $(data, url, env) {
 	// event handler
 	function reqListener () {
 		console.log( this.response );
@@ -114,13 +134,14 @@ function $(data, url) {
 	newXHR.setRequestHeader("Content-type", "application/json");
 
 	newXHR.onreadystatechange = function(){
-  		console.log(newXHR.readyState);
-  		console.log(newXHR.status);
-  		console.log(newXHR.responseText);
+		let redirectURL = 'updateFullCharacter/';
+		if(env === 'production'){
+			url = '/node/' + redirectURL;
+		};
 
 		if(url.indexOf('newCharacter') != -1){
 	  		if(newXHR.readyState === XMLHttpRequest.DONE && newXHR.status === 200){
-	  			window.location.assign('/updateFullCharacter/' + newXHR.responseText);
+				window.location.assign(redirectURL + newXHR.responseText);
 			}
 		}
 	}

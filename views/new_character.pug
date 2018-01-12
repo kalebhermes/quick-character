@@ -75,4 +75,4 @@ block content
 						option(value='1', selected=true) Yes
 						option(value='0', selected=false) No
 				div
-					button(class='u-pull-right' onclick='newCharacter()') Save
+					button(class='u-pull-right' onclick=`newCharacter('${env.NODE_ENV}')`) Save

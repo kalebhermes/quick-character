@@ -68,14 +68,14 @@ block content
 		div(class='row')
 			div(class='six columns') Image URL
 				div
-					input(value=character.image, id='image', style='width:100%', onchange="updateImage()")
+					input(value=character.image, id='image', style='width:100%', onchange=`updateImage()`)
 			div(class='six columns')
 				div Active?
 					select(style='margin-left:10px;' id='is_active')
 						option(value='1', selected=(character.is_active===1 ? true : false)) Yes
 						option(value='0', selected=(character.is_active!=1 ? true : false)) No
 				div
-					button(class='u-pull-right' onclick='saveFullCharacter("' + character.id + '")') Save
+					button(class='u-pull-right' onclick=`saveFullCharacter(${character.id}, '${env.NODE_ENV}')`) Save
 
 
 

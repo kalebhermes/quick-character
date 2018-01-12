@@ -9,6 +9,8 @@ create table CharTable (id MEDIUMINT NOT NULL AUTO_INCREMENT,
 							  AC int, 
 							  SpellSlots int, 
 							  Notes varchar(1000),
+							  image varchar(1000),
+							  is_active bool,
 							  PRIMARY KEY (id));
 							  
 create table CharStats ( id MEDIUMINT NOT NULL AUTO_INCREMENT,

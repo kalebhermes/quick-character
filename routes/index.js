@@ -2,6 +2,8 @@ var express = require('express');
 var router = express.Router();
 var mysql = require('mysql');
 var moment = require('moment');
+var creds = require('../creds');
+
 moment().format();
 
 
@@ -13,8 +15,8 @@ function findMod(stat){
 
 var connection = mysql.createConnection({
   host     : 'localhost',
-  user     : 'root',
-  password : '',
+  user     : creds.username,
+  password : creds.password,
   database : 'quick_character'
 });
 
