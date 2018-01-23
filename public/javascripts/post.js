@@ -26,6 +26,16 @@ function getURL(env, route){
 	return base + route;
 };
 
+function postCampaignNotesUpdate(env){
+	update = {
+		notes: document.getElementById('campaign_notes').value,
+	};
+
+	let url = getURL(env, 'updateCampaignNotes');
+
+	$(update, url);
+};
+
 function postCharUpdate(id, env){
 	update = {
 		hp: document.getElementById('hp_'+id).value,

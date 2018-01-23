@@ -36,7 +36,9 @@ router.get('/', function(req, res, next) {
 		inner join CharStats cs
 		on ct.id = cs.CharacterID
 		where ct.is_active = 1
-		group by ct.id;`
+		group by ct.id;`;
+
+	let notesQuery = `select notes from CampaignNotes where id = 1;`;
 
 	connection.query(query, function (err, rows, fields) {
 	  	if (err) throw err
@@ -64,7 +66,11 @@ router.get('/', function(req, res, next) {
 	  		rows[character].Stats = stats;
 	  	}
 
-	  	res.render('quick_character', { rows: rows });	
+	  	connection.query(notesQuery, function(err, notes, fields){
+	  		res.render('quick_character', { rows: rows, notes: notes[0].notes });
+	  	});
+
+	  	// res.render('quick_character', { rows: rows });	
 	})
   
 });
@@ -207,7 +213,7 @@ router.post('/updateSpells', function(req, res, next){
 		console.log(rows);
 
 		res.json(rows);
-	})
+	});
 });
 
 router.post('/updateStats', function(req, res, next){
@@ -220,7 +226,7 @@ router.post('/updateStats', function(req, res, next){
 		console.log(rows);
 
 		res.json(rows);
-	})
+	});
 });
 
 router.post('/updateCharacter', function(req, res, next){
@@ -233,7 +239,20 @@ router.post('/updateCharacter', function(req, res, next){
 		console.log(rows);
 
 		res.json(rows);
-	})
+	});
+});
+
+router.post('/updateCampaignNotes', function(req, res, next){
+	console.log(req.body);
+
+	var q = `update CampaignNotes SET Notes="${req.body.notes}" where id=1;`;
+
+	connection.query(q, function(err, rows, fields){
+		if (err) throw err;
+		console.log(rows);
+
+		res.json(rows);
+	});
 });
 
 module.exports = router;

@@ -37,3 +37,8 @@ CharacterID int,
 `9` int,
 PRIMARY KEY (id)
 );
+
+create table CampaignNotes (id MEDIUMINT NOT NULL AUTO_INCREMENT,
+							  Notes LONGTEXT, 
+							  PRIMARY KEY (id));
+							  
