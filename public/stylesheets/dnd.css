@@ -31,7 +31,7 @@ select{
 
 .campaign-notes{
 	width: 100%;
-	height: 250px;
+	height: 225px;
 	color:black!important;
 }
 
@@ -41,4 +41,9 @@ div .links > p{
 
 button{
 	color: white;
+}
+
+th,
+td {
+  padding: 3px 15px;
 }
