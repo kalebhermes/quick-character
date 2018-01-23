@@ -6,6 +6,19 @@ function findMod(stat){
 	return num;
 };
 
+function toggleCharacters(){
+	let e = document.getElementById('characters');
+	console.log(e.style.display);
+	if(e.style.display != 'none'){
+		document.getElementById('characters').style.display = 'none';
+		document.getElementById('toggle_characters').innerHTML = 'Show Characters';
+	}
+	else{
+		document.getElementById('characters').style.display = 'block';
+		document.getElementById('toggle_characters').innerHTML = 'Hide Characters';
+	}
+}
+
 function updateImage(){
 	let imageURL = document.getElementById('image').value;
 	document.getElementById('charImage').src = imageURL;

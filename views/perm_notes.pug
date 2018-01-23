@@ -1,3 +1,4 @@
-p(style='margin-bottom:2px;') Campaign Notes
+p(style='margin-bottom:2px;') Permanent Notes
 textarea(class='campaign-notes', id='campaign_notes') #{notes}
+button(class='u-pull-left', id='toggle_characters', onclick=`toggleCharacters()`) Hide Characters
 button(class='u-pull-right', onclick=`postCampaignNotesUpdate('${env.NODE_ENV}')`) Save
