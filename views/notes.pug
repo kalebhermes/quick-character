@@ -1,4 +1,3 @@
 p(style='margin-bottom:2px;') Campaign Notes
-p #{notes}
-textarea(class='campaign-notes', id='campaign_notes', value=notes)
+textarea(class='campaign-notes', id='campaign_notes') #{notes}
 button(class='u-pull-right', onclick=`postCampaignNotesUpdate('${env.NODE_ENV}')`) Save
