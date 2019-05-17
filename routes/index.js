@@ -17,7 +17,7 @@ var connection = mysql.createConnection({
   host     : 'localhost',
   user     : creds.username,
   password : creds.password,
-  database : 'quick_character'
+  database : creds.database,
 });
 
 var statName = ['Str', 'Dex', 'Con', 'Int', 'Wis', 'Cha'];
@@ -27,51 +27,76 @@ connection.connect();
 
 router.get('/', function(req, res, next) {
 
-	let query = `select ct.*,
-		GROUP_CONCAT(ss.\`1\`, ',', ss.\`2\`, ',', ss.\`3\`, ',', ss.\`4\`, ',', ss.\`5\`, ',', ss.\`6\`, ',', ss.\`7\`, ',', ss.\`8\`, ',', ss.\`9\`) as SpellSlots,
-		GROUP_CONCAT(cs.strength, ',', cs.dexterity, ',', cs.constitution, ',', cs.intelligence, ',', cs.wisdom, ',', cs.charisma) as Stats
-		from CharTable ct
-		inner join SpellSlots ss
-		on ct.id = ss.CharacterID
-		inner join CharStats cs
-		on ct.id = cs.CharacterID
-		where ct.is_active = 1
-		group by ct.id;`;
+	const campaign_id = 1;
 
-	let notesQuery = `select notes from CampaignNotes where id = 1;`;
+	let campaignquery = `select notes_id from Campaign where id = ${campaign_id}`;
 
-	connection.query(query, function (err, rows, fields) {
-	  	if (err) throw err
-	  	for(character in rows){
+	connection.query(campaignquery, (err, rows, field) => {
+		if(err) throw err;
 
-	  		rows[character].SpellSlots = rows[character].SpellSlots.split(',');
-	  		let spells = [];
-	  		for(spell in rows[character].SpellSlots){
-	  			spells.push({
-	  				name: parseInt(spell)+1,
-	  				numSlots: rows[character].SpellSlots[spell]
-	  			})
-	  		}
-	  		rows[character].SpellSlots = spells;
-	  		
-	  		rows[character].Stats = rows[character].Stats.split(',');
-	  		let stats = [];
-	  		for(stat in rows[character].Stats){
-	  			stats.push({
-	  				name: statName[stat],
-	  				stat: rows[character].Stats[stat],
-	  				mod: findMod(rows[character].Stats[stat])
-	  			})
-	  		}
-	  		rows[character].Stats = stats;
-	  	}
+		let campaign_notes_id = rows[0].notes_id;
 
-	  	connection.query(notesQuery, function(err, notes, fields){
-	  		res.render('quick_character', { rows: rows, notes: notes[0].notes });
-	  	});
+		let charquery = `select ct.*, cs.strength, cs.dexterity, cs.constitution, cs.intelligence, cs.wisdom, cs.charisma from CharTable ct inner join CharStats cs on cs.id=ct.char_stats where ct.campaign_id = ${campaign_id};`;
+		let notesquery = `select notes from CampaignNotes where id = ${campaign_notes_id}`;
 
-	  	// res.render('quick_character', { rows: rows });	
+		connection.query(charquery, (err, rows, field) => {
+			if(err) throw err;
+			res.render('quick_character', { rows: rows });
+		})
 	})
+
+
+
+
+	
+
+
+
+	// let query = `select ct.*,
+	// 	GROUP_CONCAT(ss.\`1\`, ',', ss.\`2\`, ',', ss.\`3\`, ',', ss.\`4\`, ',', ss.\`5\`, ',', ss.\`6\`, ',', ss.\`7\`, ',', ss.\`8\`, ',', ss.\`9\`) as SpellSlots,
+	// 	GROUP_CONCAT(cs.strength, ',', cs.dexterity, ',', cs.constitution, ',', cs.intelligence, ',', cs.wisdom, ',', cs.charisma) as Stats
+	// 	from CharTable ct
+	// 	inner join SpellSlots ss
+	// 	on ct.id = ss.CharacterID
+	// 	inner join CharStats cs
+	// 	on ct.id = cs.CharacterID
+	// 	where ct.is_active = 1
+	// 	group by ct.id;`;
+
+	// let notesQuery = `select notes from CampaignNotes where id = 1;`;
+
+	// connection.query(query, function (err, rows, fields) {
+	//   	if (err) throw err
+	//   	for(character in rows){
+
+	//   		rows[character].SpellSlots = rows[character].SpellSlots.split(',');
+	//   		let spells = [];
+	//   		for(spell in rows[character].SpellSlots){
+	//   			spells.push({
+	//   				name: parseInt(spell)+1,
+	//   				numSlots: rows[character].SpellSlots[spell]
+	//   			})
+	//   		}
+	//   		rows[character].SpellSlots = spells;
+	  		
+	//   		rows[character].Stats = rows[character].Stats.split(',');
+	//   		let stats = [];
+	//   		for(stat in rows[character].Stats){
+	//   			stats.push({
+	//   				name: statName[stat],
+	//   				stat: rows[character].Stats[stat],
+	//   				mod: findMod(rows[character].Stats[stat])
+	//   			})
+	//   		}
+	//   		rows[character].Stats = stats;
+	//   	}
+
+	//   	connection.query(notesQuery, function(err, notes, fields){
+	//   		res.render('quick_character', { rows: rows, notes: notes[0].notes });
+	//   	});
+
+	//   	// res.render('quick_character', { rows: rows });	
+	// })
   
 });
 
